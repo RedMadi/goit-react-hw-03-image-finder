@@ -1,21 +1,27 @@
 import React from 'react';
-
+import {
+  SearchBarStyled,
+  SearchButtonLabel,
+  SearchForm,
+  SearchFormButton,
+  SearchFormInput,
+} from './SearchBar.styled';
 export const SearchBar = ({ onSubmit }) => {
   return (
-    <header className="searchbar">
-      <form className="form" onSubmit={onSubmit}>
-        <button type="submit" className="button">
-          <span className="button-label">Search</span>
-        </button>
+    <SearchBarStyled className="searchbar">
+      <SearchForm className="form" onSubmit={onSubmit}>
+        <SearchFormButton type="submit" className="button">
+          <SearchButtonLabel className="button-label">Search</SearchButtonLabel>
+        </SearchFormButton>
 
-        <input
+        <SearchFormInput
           name="search"
           type="text"
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
         />
-      </form>
-    </header>
+      </SearchForm>
+    </SearchBarStyled>
   );
 };

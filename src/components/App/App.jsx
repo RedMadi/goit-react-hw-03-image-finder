@@ -5,6 +5,7 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
 import { LoadMoreBtn } from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
+import { AppStyled } from './App.styled';
 
 export default class App extends Component {
   state = {
@@ -21,10 +22,27 @@ export default class App extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({
-      query: e.target.search.value,
-    });
+    const searchValue = e.target.search.value;
+
+    if (!searchValue) {
+      console.log('Enter some query to find');
+      return;
+    }
+    if (this.state.query !== searchValue) {
+      this.setState(
+        prev => ({
+          query: searchValue,
+          page: 1,
+          pictures: [],
+        }),
+        () => e.target.reset()
+      );
+    } else {
+      console.log(`You already queried a ${this.state.query}`);
+      e.target.reset();
+    }
   };
+
   async componentDidUpdate(_, prevState) {
     if (
       this.state.page !== prevState.page ||
@@ -66,7 +84,7 @@ export default class App extends Component {
       this.state;
 
     return (
-      <div>
+      <AppStyled>
         <SearchBar onSubmit={this.handleSubmit} />
         {isLoading && <Loader />}
         <ImageGallery
@@ -81,7 +99,7 @@ export default class App extends Component {
             currentImg={currentImg}
           />
         )}
-      </div>
+      </AppStyled>
     );
   }
 }
