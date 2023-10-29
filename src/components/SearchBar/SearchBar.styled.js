@@ -33,7 +33,7 @@ export const SearchFormButton = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+  background-image: url('https://cdn.iconscout.com/icon/free/png-512/free-search-2235191-1872847.png?f=webp&w=512');
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;

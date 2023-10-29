@@ -56,6 +56,9 @@ export default class App extends Component {
         );
         if (!totalHits) {
           console.log('No results by your query');
+          this.setState({
+            isLoading: false,
+          });
           return;
         }
         this.setState(prev => ({
@@ -70,8 +73,11 @@ export default class App extends Component {
   }
 
   handleLoadMore = () => {
-    this.setState(prev => ({ page: prev.page + 1 }));
+    if (this.state.loadMore) {
+      this.setState(prev => ({ page: prev.page + 1 }));
+    }
   };
+
   handleOpenModal = (img, alt) => {
     this.setState(prev => ({
       modalOpen: !prev.modalOpen,
@@ -91,7 +97,10 @@ export default class App extends Component {
           pictures={pictures}
           handleOpenModal={this.handleOpenModal}
         />
-        {loadMore && <LoadMoreBtn onClick={this.handleLoadMore} />}
+        {pictures.length > 0 && loadMore && (
+          <LoadMoreBtn onClick={this.handleLoadMore} />
+        )}
+
         {modalOpen && (
           <Modal
             closeModal={this.handleOpenModal}
