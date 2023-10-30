@@ -43,32 +43,35 @@ export default class App extends Component {
     }
   };
 
-  async componentDidUpdate(_, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       this.state.page !== prevState.page ||
       this.state.query !== prevState.query
     ) {
       this.setState({ isLoading: true });
-      try {
-        const { hits, totalHits } = await FetchPicturesWithQuery(
-          this.state.page,
-          this.state.query
-        );
-        if (!totalHits) {
-          console.log('No results by your query');
-          this.setState({
-            isLoading: false,
-          });
-          return;
-        }
-        this.setState(prev => ({
-          pictures: [...prev.pictures, ...hits],
-          loadMore: prev.page < Math.ceil(totalHits / 12),
+      this.handleFetchPicturesWithQuery();
+    }
+  }
+  async handleFetchPicturesWithQuery() {
+    try {
+      const { hits, totalHits } = await FetchPicturesWithQuery(
+        this.state.page,
+        this.state.query
+      );
+      if (!totalHits) {
+        console.log('No results by your query');
+        this.setState({
           isLoading: false,
-        }));
-      } catch (error) {
-        this.setState({ error, isLoading: false });
+        });
+        return;
       }
+      this.setState(prev => ({
+        pictures: [...prev.pictures, ...hits],
+        loadMore: prev.page < Math.ceil(totalHits / 12),
+        isLoading: false,
+      }));
+    } catch (error) {
+      this.setState({ error, isLoading: false });
     }
   }
 
